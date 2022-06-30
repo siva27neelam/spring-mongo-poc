@@ -1,0 +1,9 @@
+spring:
+  data:
+    mongodb:
+      auto-index-creation: 'true'
+      database: Cluster0
+      uri: mongodb+srv://siva27neelam:Juno9091@cluster0.zfqz6uu.mongodb.net/?retryWrites=true&w=majority
+springdoc:
+  swagger-ui:
+    path: /swagger
