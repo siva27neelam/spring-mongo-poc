@@ -35,13 +35,18 @@ public class UserServiceImpl implements UserService {
             userRepository.save(maptoEntity(userData));
         } catch (Exception ex) {
             LOGGER.error("Error saving record in database: " + ex.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error while saving record in database");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error while saving record in database - " + ex.getMessage());
         }
     }
 
     @Override
     public void deleteUser(String email) {
-        userRepository.deleteByEmail(email);
+        try {
+            userRepository.deleteByEmail(email);
+        } catch (Exception ex) {
+            LOGGER.error("Error deleting record in database: " + ex.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error while deleting record in database - " + ex.getMessage());
+        }
     }
 
     @Override
@@ -57,7 +62,7 @@ public class UserServiceImpl implements UserService {
         String firstName = queryParams.get(FIRST_NAME);
         String lastName = queryParams.get(LAST_NAME);
         List<UserDataEntity> byFirstNameAndLastName = userRepository.findByFirstNameAndLastName(firstName, lastName);
-        Optional.ofNullable(byFirstNameAndLastName).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "No user exist for given search"));
+        Optional.ofNullable(byFirstNameAndLastName).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No user exist for given search"));
         List<UserData> userDataList = new ArrayList<>();
         Optional.ofNullable(byFirstNameAndLastName).orElseGet(Collections::emptyList).forEach(e -> userDataList.add(mapToData(e)));
         return userDataList;
@@ -70,6 +75,7 @@ public class UserServiceImpl implements UserService {
         data.setEmail(e.getEmail());
         data.setHobbies(e.getHobbies());
         data.setRegion(e.getRegions());
+        data.setAddress(e.getAddress());
         return data;
     }
 
@@ -81,6 +87,7 @@ public class UserServiceImpl implements UserService {
         entity.setEmail(e.getEmail());
         entity.setHobbies(e.getHobbies());
         entity.setRegions(e.getRegion());
+        entity.setAddress(e.getAddress());
         return entity;
     }
 }

@@ -10,4 +10,5 @@ public class UserData {
     private String email;
     private List<String> region;
     private List<String> hobbies;
+    private Address address;
 }
