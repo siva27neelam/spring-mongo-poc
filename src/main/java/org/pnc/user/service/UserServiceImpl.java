@@ -32,6 +32,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void createUser(UserData userData) {
         try {
+            LOGGER.info(userData.toString());
             userRepository.save(maptoEntity(userData));
         } catch (Exception ex) {
             LOGGER.error("Error saving record in database: " + ex.getMessage());
