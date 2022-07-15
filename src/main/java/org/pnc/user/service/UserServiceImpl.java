@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
     public List<UserData> searchUsers(Map<String, String> queryParams) {
         String firstName = queryParams.get(FIRST_NAME);
         String lastName = queryParams.get(LAST_NAME);
-        List<UserDataEntity> byFirstNameAndLastName = userRepository.findByFirstNameAndLastName(firstName, lastName);
+        List<UserDataEntity> byFirstNameAndLastName = userRepository.findByFirstNameAndLastName(firstName, lastName);   
         Optional.ofNullable(byFirstNameAndLastName).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No user exist for given search"));
         List<UserData> userDataList = new ArrayList<>();
         Optional.ofNullable(byFirstNameAndLastName).orElseGet(Collections::emptyList).forEach(e -> userDataList.add(mapToData(e)));
