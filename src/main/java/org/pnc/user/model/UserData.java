@@ -8,7 +8,7 @@ public class UserData {
     private String firstName;
     private String lastName;
     private String email;
-    private List<String> region;
+    private String region;
     private List<String> hobbies;
     private Address address;
 }

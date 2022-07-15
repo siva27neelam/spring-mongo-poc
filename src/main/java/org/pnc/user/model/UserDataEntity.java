@@ -21,6 +21,6 @@ public class UserDataEntity {
     private String firstName;
     private String lastName;
     private List<String> hobbies;
-    private List<String> regions;
+    private String regions;
     private Address address;
 }
