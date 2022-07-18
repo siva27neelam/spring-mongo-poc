@@ -31,13 +31,13 @@ class UserControllerTest extends Specification {
     }
 
     def "test create User"() {
-        given:
+        given: "I call user service create method with the user data"
         userService.createUser(_ as UserData) >> {}
 
-        when:
+        when: "i call the controller class with the request "
         ResponseEntity<java.lang.Void> result = userController.createUser(new UserData())
 
-        then:
+        then: "My response from service should not be null"
         result != null
     }
 
