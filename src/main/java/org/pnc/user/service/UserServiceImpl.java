@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     public List<UserData> getAllUsers() {
         List<UserDataEntity> all = userRepository.findAll();
         List<UserData> userDataList = new ArrayList<>();
-        Optional.ofNullable(all).orElseGet(Collections::emptyList).forEach(e -> userDataList.add(mapToData(e)));
+        Optional.ofNullable(all).orElseGet(Collections::emptyList).forEach(e -> userDataList.add(mapToData(e)));;
         return userDataList;
     }
 
@@ -58,17 +58,6 @@ public class UserServiceImpl implements UserService {
         return mapToData(byEmail);
     }
 
-    @Override
-    public List<UserData> searchUsers(Map<String, String> queryParams) {
-        String firstName = queryParams.get(FIRST_NAME);
-        String lastName = queryParams.get(LAST_NAME);
-        List<UserDataEntity> byFirstNameAndLastName = userRepository.findByFirstNameAndLastName(firstName, lastName);   
-        Optional.ofNullable(byFirstNameAndLastName).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No user exist for given search"));
-        List<UserData> userDataList = new ArrayList<>();
-        Optional.ofNullable(byFirstNameAndLastName).orElseGet(Collections::emptyList).forEach(e -> userDataList.add(mapToData(e)));
-        return userDataList;
-    }
-
     private UserData mapToData(UserDataEntity e) {
         UserData data = new UserData();
         data.setFirstName(e.getFirstName());
@@ -78,6 +67,17 @@ public class UserServiceImpl implements UserService {
         data.setRegion(e.getRegions());
         data.setAddress(e.getAddress());
         return data;
+    }
+
+    @Override
+    public List<UserData> searchUsers(Map<String, String> queryParams) {
+        String firstName = queryParams.get(FIRST_NAME);
+        String lastName = queryParams.get(LAST_NAME);
+        List<UserDataEntity> byFirstNameAndLastName = userRepository.findByFirstNameAndLastName(firstName, lastName);
+        Optional.ofNullable(byFirstNameAndLastName).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No user exist for given search"));
+        List<UserData> userDataList = new ArrayList<>();
+        Optional.ofNullable(byFirstNameAndLastName).orElseGet(Collections::emptyList).forEach(e -> userDataList.add(mapToData(e)));
+        return userDataList;
     }
 
     private UserDataEntity maptoEntity(UserData e) {
