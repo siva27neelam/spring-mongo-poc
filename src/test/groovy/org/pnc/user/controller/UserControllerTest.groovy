@@ -37,7 +37,7 @@ class UserControllerTest extends Specification {
         userData.setLastName("Neelam");
         userData.setEmail("hello@gmail.com");
 
-        when: "i call the controller class with the request "
+        when: "i call the controller with the request "
         userService.createUser(_ as UserData) >> {}
         ResponseEntity<java.lang.Void> user = userController.createUser(new UserData())
 
