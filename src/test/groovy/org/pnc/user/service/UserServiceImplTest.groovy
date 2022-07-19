@@ -41,10 +41,12 @@ class UserServiceImplTest extends Specification {
 
     def "test create User"() {
         given:
-        userRepository.save(_ as UserDataEntity) >> {}
+        UserData userData = new UserData()
+        userData.setFirstName("siva");
 
         when:
-        userServiceImpl.createUser(new UserData())
+        userRepository.save(_ as UserDataEntity) >> {}
+        userServiceImpl.createUser(userData)
 
         then:
         1 * userRepository.save(_);

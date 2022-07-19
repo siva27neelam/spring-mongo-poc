@@ -30,15 +30,19 @@ class UserControllerTest extends Specification {
         [new UserData(), new UserData()]          || 200
     }
 
-    def "test create User"() {
-        given: "I call user service create method with the user data"
-        userService.createUser(_ as UserData) >> {}
+    def "create User"() {
+        given: "I have the user request"
+        UserData userData = new UserData();
+        userData.setFirstName("siva");
+        userData.setLastName("Neelam");
+        userData.setEmail("hello@gmail.com");
 
         when: "i call the controller class with the request "
-        ResponseEntity<java.lang.Void> result = userController.createUser(new UserData())
+        userService.createUser(_ as UserData) >> {}
+        ResponseEntity<java.lang.Void> user = userController.createUser(new UserData())
 
-        then: "My response from service should not be null"
-        result != null
+        then: "User should be created"
+        user.getStatusCode().name() == "CREATED"
     }
 
     def "test update User"() {
@@ -83,5 +87,19 @@ class UserControllerTest extends Specification {
 
         then:
         result != null
+    }
+
+    def "Maximum of 2 numbers"(){
+        given: "I have 2 numbers"
+        when: "I pass 2 numbers as arguments to max function"
+        int result = Math.max(a, b);
+        then:"I get the maximum of the 2 numbers"
+        result == c;
+        where: "data is from the below source"
+        a   | b     || c
+        2   | 3     || 3
+        14  | 20    || 20
+        0   |0      || 0
+
     }
 }
